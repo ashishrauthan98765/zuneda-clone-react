@@ -43,25 +43,76 @@ const services = [
 const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    cardsRef.current.forEach((card, index) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 100 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 80%",
-            end: "top 50%",
-            scrub: 1,
+    const ctx = gsap.context(() => {
+      // Title animation
+      if (titleRef.current) {
+        gsap.fromTo(
+          titleRef.current.children,
+          { opacity: 0, x: -50 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: "top 80%",
+            },
+          }
+        );
+      }
+
+      // Cards animation with rotation and scale
+      cardsRef.current.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { 
+            opacity: 0, 
+            y: 100,
+            rotateY: -15,
+            scale: 0.9,
           },
-        }
-      );
+          {
+            opacity: 1,
+            y: 0,
+            rotateY: 0,
+            scale: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              end: "top 60%",
+              scrub: 1,
+            },
+          }
+        );
+
+        // Hover animation
+        card.addEventListener("mouseenter", () => {
+          gsap.to(card, {
+            y: -10,
+            scale: 1.02,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(card, {
+            y: 0,
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+        });
+      });
     });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -71,7 +122,7 @@ const Services = () => {
       className="py-20 px-6 md:px-12 lg:px-24"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
+        <div ref={titleRef} className="mb-16">
           <h2 className="text-section font-bold mb-4">What I Do/</h2>
           <p className="text-muted-foreground text-sm uppercase tracking-wider">
             (Services)

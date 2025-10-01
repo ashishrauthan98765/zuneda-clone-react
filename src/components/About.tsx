@@ -10,35 +10,56 @@ const About = () => {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (imageRef.current && textRef.current) {
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, x: -50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: imageRef.current,
-            start: "top 80%",
+    const ctx = gsap.context(() => {
+      // Image slide and rotate
+      if (imageRef.current) {
+        gsap.fromTo(
+          imageRef.current,
+          { 
+            opacity: 0, 
+            x: -100,
+            rotateY: -25,
+            scale: 0.8,
           },
-        }
-      );
+          {
+            opacity: 1,
+            x: 0,
+            rotateY: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: imageRef.current,
+              start: "top 75%",
+              end: "top 50%",
+              scrub: 1,
+            },
+          }
+        );
+      }
 
-      gsap.fromTo(
-        textRef.current,
-        { opacity: 0, x: 50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: textRef.current,
-            start: "top 80%",
-          },
-        }
-      );
-    }
+      // Text reveal with stagger
+      if (textRef.current) {
+        const children = textRef.current.children;
+        gsap.fromTo(
+          children,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: textRef.current,
+              start: "top 75%",
+            },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (

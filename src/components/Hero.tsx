@@ -1,26 +1,87 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (textRef.current) {
-      gsap.fromTo(
-        textRef.current.children,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-        }
-      );
-    }
+    const ctx = gsap.context(() => {
+      // Title animation with split text effect
+      if (textRef.current) {
+        const spans = textRef.current.children;
+        gsap.fromTo(
+          spans,
+          { 
+            opacity: 0, 
+            y: 100,
+            rotateX: -90,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power4.out",
+          }
+        );
+      }
+
+      // Description fade in
+      if (descRef.current) {
+        gsap.fromTo(
+          descRef.current.children,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            delay: 0.5,
+            ease: "power3.out",
+          }
+        );
+      }
+
+      // Image scale in
+      if (imageRef.current) {
+        gsap.fromTo(
+          imageRef.current,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            delay: 0.8,
+            ease: "elastic.out(1, 0.5)",
+          }
+        );
+      }
+
+      // Parallax effect on scroll
+      if (heroRef.current) {
+        gsap.to(heroRef.current, {
+          yPercent: 30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   const scrollToContact = () => {
@@ -41,7 +102,7 @@ const Hero = () => {
           <span className="block">AALIM</span>
         </h1>
 
-        <div className="max-w-3xl space-y-6">
+        <div ref={descRef} className="max-w-3xl space-y-6">
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
             Open to job opportunities worldwide. Passionate about building polished,
             intuitive, and thoughtful digital experiences that leave a mark.
@@ -59,7 +120,10 @@ const Hero = () => {
         </div>
 
         <div className="mt-16 flex items-center gap-8">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-muted overflow-hidden">
+          <div 
+            ref={imageRef}
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-muted overflow-hidden"
+          >
             <div className="w-full h-full flex items-center justify-center text-4xl font-bold">
               ZA
             </div>

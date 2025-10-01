@@ -7,23 +7,76 @@ gsap.registerPlugin(ScrollTrigger);
 const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const projectsRef = useRef<HTMLDivElement[]>([]);
+  const bottomTextRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (titleRef.current) {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, x: -100 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
+    const ctx = gsap.context(() => {
+      // Title animation with clip path
+      if (titleRef.current) {
+        gsap.fromTo(
+          titleRef.current,
+          { 
+            opacity: 0, 
+            clipPath: "inset(0 100% 0 0)",
           },
-        }
-      );
-    }
+          {
+            opacity: 1,
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.5,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: "top 80%",
+            },
+          }
+        );
+      }
+
+      // Projects stagger animation
+      projectsRef.current.forEach((project, index) => {
+        gsap.fromTo(
+          project,
+          {
+            opacity: 0,
+            scale: 0.8,
+            rotateZ: -5,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotateZ: 0,
+            duration: 1,
+            delay: index * 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: project,
+              start: "top 85%",
+            },
+          }
+        );
+      });
+
+      // Bottom text scroll animation
+      if (bottomTextRef.current) {
+        gsap.fromTo(
+          bottomTextRef.current,
+          { x: -100, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: bottomTextRef.current,
+              start: "top 90%",
+            },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -47,9 +100,12 @@ const Projects = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[1, 2, 3, 4].map((num) => (
+          {[1, 2, 3, 4].map((num, index) => (
             <div
               key={num}
+              ref={(el) => {
+                if (el) projectsRef.current[index] = el;
+              }}
               className="aspect-video bg-muted rounded-lg overflow-hidden group cursor-pointer relative"
             >
               <div className="w-full h-full flex items-center justify-center text-6xl font-bold text-muted-foreground group-hover:scale-110 transition-transform duration-500">
@@ -60,7 +116,7 @@ const Projects = () => {
           ))}
         </div>
 
-        <div className="mt-20 text-center">
+        <div ref={bottomTextRef} className="mt-20 text-center overflow-hidden">
           <h3 className="text-4xl md:text-6xl font-bold">
             DEVELOPER DESIGNER CREATOR/
           </h3>

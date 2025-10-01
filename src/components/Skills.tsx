@@ -49,23 +49,71 @@ const skillCategories = [
 const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const skillsRef = useRef<HTMLDivElement[]>([]);
+  const categoryRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    skillsRef.current.forEach((skill) => {
-      gsap.fromTo(
-        skill,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-          scrollTrigger: {
-            trigger: skill,
-            start: "top 90%",
+    const ctx = gsap.context(() => {
+      // Category titles animation
+      categoryRefs.current.forEach((category) => {
+        gsap.fromTo(
+          category,
+          { opacity: 0, x: -30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            scrollTrigger: {
+              trigger: category,
+              start: "top 85%",
+            },
+          }
+        );
+      });
+
+      // Skills stagger with wave effect
+      skillsRef.current.forEach((skill, index) => {
+        gsap.fromTo(
+          skill,
+          { 
+            opacity: 0, 
+            scale: 0.5,
+            y: 30,
           },
-        }
-      );
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: skill,
+              start: "top 92%",
+            },
+          }
+        );
+
+        // Floating animation on hover
+        skill.addEventListener("mouseenter", () => {
+          gsap.to(skill, {
+            y: -5,
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        skill.addEventListener("mouseleave", () => {
+          gsap.to(skill, {
+            y: 0,
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      });
     });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -75,7 +123,12 @@ const Skills = () => {
 
         {skillCategories.map((category, catIndex) => (
           <div key={category.title} className="mb-16">
-            <h3 className="text-2xl font-bold mb-8 text-muted-foreground">
+            <h3 
+              ref={(el) => {
+                if (el) categoryRefs.current[catIndex] = el;
+              }}
+              className="text-2xl font-bold mb-8 text-muted-foreground"
+            >
               {category.title}
             </h3>
             <div className="flex flex-wrap gap-4">
