@@ -41,9 +41,9 @@ const services = [
 ];
 
 const Services = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement[]>([]);
-  const titleRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef(null);
+  const cardsRef = useRef([]);
+  const titleRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

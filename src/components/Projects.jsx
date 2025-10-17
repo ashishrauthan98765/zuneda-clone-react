@@ -7,10 +7,10 @@ import { Button } from "./ui/button";
 gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const projectsRef = useRef<HTMLDivElement[]>([]);
-  const bottomTextRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const projectsRef = useRef([]);
+  const bottomTextRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

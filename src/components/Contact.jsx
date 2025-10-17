@@ -15,8 +15,8 @@ const Contact = () => {
     message: "",
   });
   const { toast } = useToast();
-  const titleRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const titleRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,7 +61,7 @@ const Contact = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     toast({
       title: "Message Sent!",

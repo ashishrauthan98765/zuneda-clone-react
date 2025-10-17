@@ -7,10 +7,10 @@ import { ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef(null);
+  const textRef = useRef(null);
+  const descRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

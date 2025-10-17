@@ -19,8 +19,7 @@ import {
   Zap,
   Network,
   Binary,
-  BookOpen,
-  type LucideIcon
+  BookOpen
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -68,9 +67,9 @@ const skillCategories = [
 ];
 
 const Skills = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const skillsRef = useRef<HTMLDivElement[]>([]);
-  const categoryRefs = useRef<HTMLDivElement[]>([]);
+  const sectionRef = useRef(null);
+  const skillsRef = useRef([]);
+  const categoryRefs = useRef([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
+const SmoothScroll = ({ children }) => {
   useEffect(() => {
     // Smooth scroll configuration
     gsap.config({
@@ -27,7 +27,7 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     `;
     document.body.appendChild(cursor);
 
-    const moveCursor = (e: MouseEvent) => {
+    const moveCursor = (e) => {
       gsap.to(cursor, {
         x: e.clientX - 5,
         y: e.clientY - 5,
