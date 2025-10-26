@@ -1,8 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Github, ExternalLink } from "lucide-react";
-import { Button } from "./ui/button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,32 +111,7 @@ const Projects = () => {
               <div className="w-full h-full flex items-center justify-center text-6xl font-bold text-muted-foreground group-hover:scale-110 transition-transform duration-500">
                 {num}
               </div>
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-all duration-300" />
-              
-              <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="hover:scale-110 transition-transform"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Add GitHub link here
-                  }}
-                >
-                  <Github className="w-4 h-4" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="hover:scale-110 transition-transform"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Add live view link here
-                  }}
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </Button>
-              </div>
+              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
             </div>
           ))}
         </div>

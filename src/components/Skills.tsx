@@ -1,27 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { 
-  Code2, 
-  Database, 
-  FileJson, 
-  Coffee, 
-  Braces, 
-  GitBranch, 
-  Box, 
-  Container, 
-  Flame, 
-  Cpu, 
-  Layers, 
-  Blocks,
-  Wind,
-  Palette,
-  Zap,
-  Network,
-  Binary,
-  BookOpen,
-  type LucideIcon
-} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,40 +8,40 @@ const skillCategories = [
   {
     title: "Languages & Tools",
     items: [
-      { name: "Python", icon: Code2 },
-      { name: "SQL", icon: Database },
-      { name: "C++", icon: FileJson },
-      { name: "Java", icon: Coffee },
-      { name: "TypeScript", icon: Braces },
-      { name: "JavaScript", icon: Braces },
-      { name: "Git", icon: GitBranch },
-      { name: "Postman", icon: Box },
-      { name: "Docker", icon: Container },
-      { name: "Firebase", icon: Flame },
+      "Python",
+      "SQL",
+      "C++",
+      "Java",
+      "TypeScript",
+      "JavaScript",
+      "Git",
+      "Postman",
+      "Docker",
+      "Firebase",
     ],
   },
   {
     title: "Frameworks & Libraries",
     items: [
-      { name: "React", icon: Cpu },
-      { name: "Node.js", icon: Layers },
-      { name: "Express.js", icon: Blocks },
-      { name: "Flask", icon: Zap },
-      { name: "Bootstrap", icon: Palette },
-      { name: "jQuery", icon: Code2 },
-      { name: "TailwindCSS", icon: Wind },
-      { name: "Framer Motion", icon: Zap },
-      { name: "GSAP", icon: Zap },
+      "React",
+      "Node.js",
+      "Express.js",
+      "Flask",
+      "Bootstrap",
+      "jQuery",
+      "TailwindCSS",
+      "Framer Motion",
+      "GSAP",
     ],
   },
   {
     title: "Core CS Concepts",
     items: [
-      { name: "DSA", icon: Binary },
-      { name: "DBMS", icon: Database },
-      { name: "OOP", icon: BookOpen },
-      { name: "Operating Systems", icon: Network },
-      { name: "System Design", icon: Blocks },
+      "DSA",
+      "DBMS",
+      "OOP",
+      "Operating Systems",
+      "System Design",
     ],
   },
 ];
@@ -155,17 +134,15 @@ const Skills = () => {
             <div className="flex flex-wrap gap-4">
               {category.items.map((skill, index) => {
                 const globalIndex = catIndex * 20 + index;
-                const Icon = skill.icon;
                 return (
                   <div
-                    key={skill.name}
+                    key={skill}
                     ref={(el) => {
                       if (el) skillsRef.current[globalIndex] = el;
                     }}
-                    className="px-6 py-3 bg-secondary rounded-full text-sm font-medium hover:bg-accent transition-colors duration-300 cursor-default flex items-center gap-2 group"
+                    className="px-6 py-3 bg-secondary rounded-full text-sm font-medium hover:bg-accent transition-colors duration-300 cursor-default"
                   >
-                    <Icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                    {skill.name}
+                    {skill}
                   </div>
                 );
               })}
